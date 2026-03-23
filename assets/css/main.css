@@ -90,7 +90,7 @@ h6 {
   font-family: var(--heading-font);
 }
 
-/* Base Component Styles (Replacing Bootstrap)
+/* Base Component Styles
 ------------------------------*/
 .btn {
   display: inline-block;

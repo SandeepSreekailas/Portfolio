@@ -86,7 +86,7 @@
     width: 100%;
 }
 
-/* Flex Utilities (Commonly used by the template) */
+/* Flex Utilities */
 .d-flex {
     display: flex !important;
 }
