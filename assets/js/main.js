@@ -230,4 +230,47 @@
   window.addEventListener('load', navmenuScrollspy);
   document.addEventListener('scroll', navmenuScrollspy);
 
+  /**
+   * Lazy Load Portfolio Images
+   */
+  document.addEventListener("DOMContentLoaded", function() {
+    let lazyImages = [].slice.call(document.querySelectorAll("img.lazy-load"));
+    
+    if ("IntersectionObserver" in window) {
+      let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            let lazyImage = entry.target;
+            lazyImage.src = lazyImage.dataset.src;
+            lazyImage.classList.remove("lazy-load");
+            lazyImage.classList.add("lazy-loaded");
+            lazyImageObserver.unobserve(lazyImage);
+            
+            // Re-layout isotope when image loads
+            lazyImage.onload = () => {
+              let isoContainer = lazyImage.closest('.isotope-container');
+              if (isoContainer && window.Isotope) {
+                let initIsotope = Isotope.data(isoContainer);
+                if (initIsotope) {
+                  initIsotope.layout();
+                }
+              }
+            };
+          }
+        });
+      });
+
+      lazyImages.forEach(function(lazyImage) {
+        lazyImageObserver.observe(lazyImage);
+      });
+    } else {
+      // Fallback for older browsers
+      lazyImages.forEach(function(lazyImage) {
+        lazyImage.src = lazyImage.dataset.src;
+        lazyImage.classList.remove("lazy-load");
+        lazyImage.classList.add("lazy-loaded");
+      });
+    }
+  });
+
 })();
